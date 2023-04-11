@@ -237,7 +237,7 @@ def _get_nvlink_throughput():
 def _get_max_bandwidth():
     links = [
         getattr(pynvml, f"NVML_FI_DEV_NVLINK_SPEED_MBPS_L{i}")
-        for i in range(pynvml.NVML_NVLINK_MAX_LINKS)
+        for i in range(pynvml.NVML_NVLINK_MAX_LINKS) if hasattr(pynvml, f"NVML_FI_DEV_NVLINK_SPEED_MBPS_L{i}")
     ]
 
     bandwidth = [
