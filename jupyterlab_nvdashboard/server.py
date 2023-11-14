@@ -1,14 +1,15 @@
 import sys
 
 from bokeh.server.server import Server
-from tornado.ioloop import IOLoop
+from bokeh.settings import settings
 from tornado import web
+from tornado.ioloop import IOLoop
 
 from jupyterlab_nvdashboard import apps
 
-
 DEFAULT_PORT = 8000
 
+settings.resources = 'inline'
 
 routes = {
     # "/CPU-Utilization": apps.cpu.cpu,
@@ -24,6 +25,7 @@ if apps.gpu.ngpus > 0:
     if apps.gpu.nvlink_ver is not None:
         routes["/NVLink-Throughput"] = apps.gpu.nvlink
         routes["/NVLink-Timeline"] = apps.gpu.nvlink_timeline
+
 
 class RouteIndex(web.RequestHandler):
     """ A JSON index of all routes present on the Bokeh Server """
@@ -41,7 +43,7 @@ def go():
     server.start()
 
     server._tornado.add_handlers(
-        r".*", [(server.prefix + "/" + "index.json", RouteIndex, {})]
+        r".*", [(server.prefix + "/" + "index.json", RouteIndex, {})],
     )
 
     IOLoop.current().start()
