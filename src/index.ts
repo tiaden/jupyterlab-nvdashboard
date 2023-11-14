@@ -7,6 +7,8 @@ import {
 
 import { WidgetTracker } from '@jupyterlab/apputils';
 
+import { LabIcon } from '@jupyterlab/ui-components';
+
 import {
   BokehDashboard,
   BokehDashboardLauncher,
@@ -17,11 +19,19 @@ import '../style/index.css';
 
 const COMMAND_ID = 'bokeh-server:launch-document';
 
+import DashboardSvg from '../style/expansion-card.svg';
+
+export const DashboardIcon = new LabIcon({
+  name: 'dashboard-svg',
+  svgstr: DashboardSvg
+});
+
 /**
  * Initialization data for the jupyterlab-nvdashboard extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'jupyterlab-nvdashboard',
+  id: 'jupyterlab-nvdashboard:plugin',
+  description: 'A JupyterLab extension for displaying GPU usage dashboards',
   autoStart: true,
   requires: [ILabShell],
   optional: [ILayoutRestorer],
@@ -36,8 +46,8 @@ const extension: JupyterFrontEndPlugin<void> = {
       }
     });
     sidebar.id = 'nvdashboard-launcher';
-    sidebar.title.iconClass = 'jp-GPU-icon jp-SideBar-tabIcon';
     sidebar.title.caption = 'GPU Dashboards';
+    sidebar.title.icon = DashboardIcon;
     labShell.add(sidebar, 'left');
 
     // An instance tracker which is used for state restoration.
@@ -64,7 +74,6 @@ const extension: JupyterFrontEndPlugin<void> = {
 
         const widget = new BokehDashboard();
         widget.title.label = item.label;
-        widget.title.icon = 'jp-GPU-icon';
         widget.item = item;
         labShell.add(widget, 'main');
         tracker.add(widget);

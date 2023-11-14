@@ -25,6 +25,7 @@ export async function requestAPI<T>(
   try {
     response = await ServerConnection.makeRequest(requestUrl, init, settings);
   } catch (error) {
+    // @ts-expect-error Error class is not exported
     throw new ServerConnection.NetworkError(error);
   }
 

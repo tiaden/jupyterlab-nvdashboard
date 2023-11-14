@@ -81,13 +81,3 @@
     background-position: center;
     opacity: 0.1;
   }
-
-  /**
-   * Icons
-   */
-  [data-jp-theme-light='true'] .jp-GPU-icon {
-    background-image: url(./expansion-card-variant-light.svg);
-  }
-  [data-jp-theme-light="false"] .jp-GPU-icon {
-    background-image: url(./expansion-card-variant-dark.svg);
-  }
